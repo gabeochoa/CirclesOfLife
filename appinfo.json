@@ -7,13 +7,7 @@
     "longName": "CircleOfLife",
     "projectType": "native",
     "resources": {
-        "media": [
-            {
-                "file": "images/panda.png",
-                "name": "IMAGE_PANDA",
-                "type": "png-trans"
-            }
-        ]
+        "media": []
     },
     "shortName": "CircleOfLife",
     "uuid": "3e05105a-7224-4b06-8675-13e9f990e58e",

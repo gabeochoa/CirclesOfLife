@@ -1,52 +1,5 @@
-#include <pebble.h>
-#include <math.h>
 #include "CircleOfLife.h"
 
-Window *window;
-Layer *minute_display_layer;
-Layer *second_display_layer;
-Layer *hour_display_layer;
-Layer *ball_layer;
-
-struct Ball
-{
-	int x;
-	int y;
-}inst;
-
-const GPathInfo SECOND_SEGMENT_PATH_POINTS = {
-	3,
-	(GPoint []) {
-	{0, 0},
-	{-4, -35}, // 80 = radius + fudge; 8 = 80*tan(6 degrees); 6 degrees per second;
-	{4,  -35},
-	}
-};
-
-static GPath *second_segment_path;
-
-const GPathInfo MINUTE_SEGMENT_PATH_POINTS = {
-	3,
-	(GPoint []) {
-	{0, 0},
-	{-5, -50}, // 80 = radius + fudge; 8 = 80*tan(6 degrees); 6 degrees per minute;
-	{5,  -50},
-	}
-};
-
-static GPath *minute_segment_path;
-
-
-const GPathInfo HOUR_SEGMENT_PATH_POINTS = {
-	3,
-	(GPoint []) {
-	{0, 0},
-	{-18, -70}, // 50 = radius + fudge; 13 = 50*tan(15 degrees); 30 degrees per hour;
-	{18,  -70},
-	}
-};
-
-static GPath *hour_segment_path;
 
 static void hour_display_layer_update_callback(Layer *layer, GContext* ctx) 
 {
@@ -54,6 +7,8 @@ static void hour_display_layer_update_callback(Layer *layer, GContext* ctx)
 	struct tm *t = localtime(&now);
 	
 	unsigned int angle = (t->tm_hour % 12) * 30;
+
+	int anglediff = 6;
 	
 	GRect bounds = layer_get_bounds(layer);
 	GPoint center = grect_center_point(&bounds);
@@ -63,9 +18,9 @@ static void hour_display_layer_update_callback(Layer *layer, GContext* ctx)
 	graphics_context_set_stroke_color(ctx, GColorWhite);
 	graphics_draw_circle(ctx, center, 64);
 
-	for (unsigned int i = 0; i < 360; i+=15) 
+	for (unsigned int i = 0; i < 360; i+=anglediff) 
 	{
-		if ((i != angle) && (i != (angle + 15)) && (i != ((angle-15+360) % 360)) ) 
+		if ((i != angle) && (i != (angle + anglediff)) && (i != ((angle-anglediff+360) % 360)) ) 
 		{
 			
 		}
